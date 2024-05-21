@@ -206,43 +206,43 @@ def register():
 mainObject = Tk()
 mainObject.geometry("600x600")
 mainObject.resizable(0, 0)
-mainObject.title("Main")
+mainObject.title("MyTask")
 mainObject.configure(background="white")
 
-# Training file 1
-lblPath1 = Label(mainObject, text="Training file 1", bg="white")
+# Training Data Set 1
+lblPath1 = Label(mainObject, text="Training DS 1", bg="white")
 lblPath1.grid(row=0, column=0, padx=(10, 10), pady=10)
 button1 = Button(mainObject, text="...", command=lambda: open_file_dialog(entryPath1))
 button1.grid(row=0, column=1, pady=10)
 entryPath1 = ttk.Entry(mainObject, width=50)
 entryPath1.grid(row=0, column=2, padx=(10, 10), pady=10)
 
-# Training file 2
-lblPath2 = Label(mainObject, text="Training file 2", bg="white")
+# Training Data Set 2
+lblPath2 = Label(mainObject, text="Training DS 2", bg="white")
 lblPath2.grid(row=1, column=0, padx=(10, 10), pady=10)
 button2 = Button(mainObject, text="...", command=lambda: open_file_dialog(entryPath2))
 button2.grid(row=1, column=1, pady=10)
 entryPath2 = ttk.Entry(mainObject, width=50)
 entryPath2.grid(row=1, column=2, padx=(10, 10), pady=10)
 
-# Training file 3
-lblPath3 = Label(mainObject, text="Training file 3", bg="white")
+# Training Data Set 3
+lblPath3 = Label(mainObject, text="Training DS 3", bg="white")
 lblPath3.grid(row=2, column=0, padx=(10, 10), pady=10)
 button3 = Button(mainObject, text="...", command=lambda: open_file_dialog(entryPath3))
 button3.grid(row=2, column=1, pady=10)
 entryPath3 = ttk.Entry(mainObject, width=50)
 entryPath3.grid(row=2, column=2, padx=(10, 10), pady=10)
 
-# Training file 4
-lblPath4 = Label(mainObject, text="Training file 4", bg="white")
+# Training Data Set 4
+lblPath4 = Label(mainObject, text="Training DS 4", bg="white")
 lblPath4.grid(row=3, column=0, padx=(10, 10), pady=10)
 button4 = Button(mainObject, text="...", command=lambda: open_file_dialog(entryPath4))
 button4.grid(row=3, column=1, pady=10)
 entryPath4 = ttk.Entry(mainObject, width=50)
 entryPath4.grid(row=3, column=2, padx=(10, 10), pady=10)
 
-# Function file
-lblFunctionPath = Label(mainObject, text="Function file", bg="white")
+# Function Data Set
+lblFunctionPath = Label(mainObject, text="Function DS", bg="white")
 lblFunctionPath.grid(row=4, column=0, padx=(10, 10), pady=10)
 buttonFunction = Button(mainObject, text="...", command=lambda: open_file_dialog(entryFunction))
 buttonFunction.grid(row=4, column=1, pady=10)
@@ -257,9 +257,9 @@ buttonTest.grid(row=5, column=1, pady=10)
 entryTest = ttk.Entry(mainObject, width=50)
 entryTest.grid(row=5, column=2, padx=(10, 10), pady=10)
 
-btnRegister = Button(mainObject, text="Register", command=register)
+btnRegister = Button(mainObject, text="Calculate", command=register)
 btnRegister.grid(row=6, column=1, columnspan=2, padx=(10, 10), pady=20)
 
-if __name__ == "__main__":
+if __name__ == "__MyTask__":
     mainObject.mainloop()
 
