@@ -31,14 +31,10 @@ class CSVLoader:
 class TrainingDataLoader(CSVLoader):
     """Class for loading training data CSV files."""
 
-    def __init__(self, filepath, col_name):
-        super().__init__(filepath)
-        self.col_name = col_name
-
     def load(self):
         """Load CSV file and rename columns accordingly."""
         super().load()
-        self.df.columns = ['x', self.col_name]
+        self.df.columns = ['x', 'y1', 'y2', 'y3', 'y4']
 
 
 class IdealFunctionLoader(CSVLoader):
@@ -145,14 +141,11 @@ def open_file_dialog(entry):
 
 
 def register():
-    if entryPath1.get() == "" or entryPath2.get() == "" or entryPath3.get() == "" or entryPath4.get() == "" or entryFunction.get() == "" or entryTest.get() == "":
+    if entryPath1.get() == ""  or entryFunction.get() == "" or entryTest.get() == "":
         msg.showinfo("Warning", "Please select all CSV files.")
         return
 
     filePath1 = entryPath1.get()
-    filePath2 = entryPath2.get()
-    filePath3 = entryPath3.get()
-    filePath4 = entryPath4.get()
     fileFunction = entryFunction.get()
     fileTest = entryTest.get()
 
@@ -163,15 +156,11 @@ def register():
         # Proceed with other operations...
 
         # Load training data into the database
-        loaders = [TrainingDataLoader(filePath1, 'y1'), TrainingDataLoader(filePath2, 'y2'),
-                   TrainingDataLoader(filePath3, 'y3'), TrainingDataLoader(filePath4, 'y4')]
-        dfs = [loader.load() or loader.get_dataframe() for loader in loaders]
+        training_loader = TrainingDataLoader(filePath1)
+        training_loader.load()
+        ideal_df = training_loader.get_dataframe()
+        processor.save_to_db(ideal_df, 'TrainingData')
 
-        merged_df = dfs[0]
-        for df in dfs[1:]:
-            merged_df = pd.merge(merged_df, df, on='x')
-
-        processor.save_to_db(merged_df, 'TrainingData')
 
         # Load ideal functions data into the database
         ideal_loader = IdealFunctionLoader(fileFunction)
@@ -185,7 +174,7 @@ def register():
         test_df = test_loader.get_dataframe()
 
         # Find the best fit functions for each training data column
-        best_fit_functions = processor.find_best_fit(merged_df, ideal_df)
+        best_fit_functions = processor.find_best_fit(ideal_df, ideal_df)
 
         # Calculate deviations for test data
         deviations = processor.calculate_deviation(test_df, ideal_df, best_fit_functions)
@@ -206,7 +195,7 @@ def register():
 mainObject = Tk()
 mainObject.geometry("600x600")
 mainObject.resizable(0, 0)
-mainObject.title("MyTask")
+mainObject.title("TaskPython")
 mainObject.configure(background="white")
 
 # Training Data Set 1
@@ -216,30 +205,6 @@ button1 = Button(mainObject, text="...", command=lambda: open_file_dialog(entryP
 button1.grid(row=0, column=1, pady=10)
 entryPath1 = ttk.Entry(mainObject, width=50)
 entryPath1.grid(row=0, column=2, padx=(10, 10), pady=10)
-
-# Training Data Set 2
-lblPath2 = Label(mainObject, text="Training DS 2", bg="white")
-lblPath2.grid(row=1, column=0, padx=(10, 10), pady=10)
-button2 = Button(mainObject, text="...", command=lambda: open_file_dialog(entryPath2))
-button2.grid(row=1, column=1, pady=10)
-entryPath2 = ttk.Entry(mainObject, width=50)
-entryPath2.grid(row=1, column=2, padx=(10, 10), pady=10)
-
-# Training Data Set 3
-lblPath3 = Label(mainObject, text="Training DS 3", bg="white")
-lblPath3.grid(row=2, column=0, padx=(10, 10), pady=10)
-button3 = Button(mainObject, text="...", command=lambda: open_file_dialog(entryPath3))
-button3.grid(row=2, column=1, pady=10)
-entryPath3 = ttk.Entry(mainObject, width=50)
-entryPath3.grid(row=2, column=2, padx=(10, 10), pady=10)
-
-# Training Data Set 4
-lblPath4 = Label(mainObject, text="Training DS 4", bg="white")
-lblPath4.grid(row=3, column=0, padx=(10, 10), pady=10)
-button4 = Button(mainObject, text="...", command=lambda: open_file_dialog(entryPath4))
-button4.grid(row=3, column=1, pady=10)
-entryPath4 = ttk.Entry(mainObject, width=50)
-entryPath4.grid(row=3, column=2, padx=(10, 10), pady=10)
 
 # Function Data Set
 lblFunctionPath = Label(mainObject, text="Function DS", bg="white")
@@ -257,9 +222,9 @@ buttonTest.grid(row=5, column=1, pady=10)
 entryTest = ttk.Entry(mainObject, width=50)
 entryTest.grid(row=5, column=2, padx=(10, 10), pady=10)
 
-btnRegister = Button(mainObject, text="Calculate", command=register)
+btnRegister = Button(mainObject, text="Confirm", command=register)
 btnRegister.grid(row=6, column=1, columnspan=2, padx=(10, 10), pady=20)
 
-if __name__ == "__MyTask__":
+if __name__ == "__main__":
     mainObject.mainloop()
 
