@@ -158,8 +158,8 @@ def register():
         # Load training data into the database
         training_loader = TrainingDataLoader(filePath1)
         training_loader.load()
-        ideal_df = training_loader.get_dataframe()
-        processor.save_to_db(ideal_df, 'TrainingData')
+        training_df = training_loader.get_dataframe()
+        processor.save_to_db(training_df, 'TrainingData')
 
 
         # Load ideal functions data into the database
@@ -174,7 +174,7 @@ def register():
         test_df = test_loader.get_dataframe()
 
         # Find the best fit functions for each training data column
-        best_fit_functions = processor.find_best_fit(ideal_df, ideal_df)
+        best_fit_functions = processor.find_best_fit(training_df, ideal_df)
 
         # Calculate deviations for test data
         deviations = processor.calculate_deviation(test_df, ideal_df, best_fit_functions)
